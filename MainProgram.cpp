@@ -1,10 +1,3 @@
-// ============================================================
-// Lab: More Details about Classes
-// Course: Object-Oriented Programming (C++)
-// Level: 2nd Year Engineering
-// Duration: 60 minutes
-// ============================================================
-
 #include <iostream>
 #include <string>
 
@@ -12,144 +5,125 @@
 // CLASS DEFINITIONS
 // ============================================================
 
+class Rectangle; // forward declaration for friend
+
 class Point {
 private:
     double x;
     double y;
+
 public:
-    // TODO 1: Constructor with member initializer list
+    // TODO 1
     Point(double x, double y) : x(x), y(y) {}
 
-    // TODO 2: const getter for x
+    // TODO 2
     double getX() const { return x; }
 
-    // TODO 3: const getter for y
+    // TODO 3
     double getY() const { return y; }
 
-    // TODO 4: const display()
+    // TODO 4
     void display() const {
         std::cout << "(" << x << ", " << y << ")";
     }
 
-    // TODO 5: declare Rectangle as friend class
+    // TODO 5
     friend class Rectangle;
 };
-
 
 class Rectangle {
 private:
     Point topLeft;
     Point bottomRight;
+
 public:
-    // TODO 6: constructor with member initializer list
+    // TODO 6
     Rectangle(double x1, double y1, double x2, double y2)
         : topLeft(x1, y1), bottomRight(x2, y2) {}
 
-    // TODO 7: const getWidth()
+    // TODO 7
     double getWidth() const {
-        // Use direct member access via friend relationship
-        return bottomRight.x - topLeft.x;
+        return std::abs(bottomRight.x - topLeft.x);
     }
 
-    // TODO 8: const getHeight()
+    // TODO 8
     double getHeight() const {
-        return bottomRight.y - topLeft.y;
+        return std::abs(topLeft.y - bottomRight.y);
     }
 
-    // TODO 9: const getArea()
+    // TODO 9
     double getArea() const {
         return getWidth() * getHeight();
     }
 
-    // TODO 10: const display()
+    // TODO 10
     void display() const {
-        std::cout << "Rectangle: topLeft=";
+        std::cout << "TopLeft: ";
         topLeft.display();
-        std::cout << ", bottomRight=";
+        std::cout << ", BottomRight: ";
         bottomRight.display();
-        std::cout << ", width=" << getWidth()
-                  << ", height=" << getHeight()
-                  << ", area=" << getArea()
-                  << std::endl;
+        std::cout << ", Area: " << getArea() << std::endl;
     }
 
-    // TODO 11: declare isSameSize as friend function
+    // TODO 11
     friend bool isSameSize(const Rectangle& r1, const Rectangle& r2);
 };
 
-
-// TODO 12: implement isSameSize
+// TODO 12
 bool isSameSize(const Rectangle& r1, const Rectangle& r2) {
-    return (r1.getWidth() == r2.getWidth()) && (r1.getHeight() == r2.getHeight());
+    return (r1.getWidth() == r2.getWidth()) &&
+           (r1.getHeight() == r2.getHeight());
 }
-
 
 class ConstDemo {
 private:
     int value;
+
 public:
-    // TODO 13: constructor with member initializer list
+    // TODO 13
     ConstDemo(int v) : value(v) {}
 
-    // TODO 14: const getValue()
+    // TODO 14
     int getValue() const { return value; }
 
-    // TODO 15: NON-const doubleValue() — multiplies value by 2
+    // TODO 15
     void doubleValue() {
         value *= 2;
     }
 
-    // TODO 16: const constGetDouble() — returns value * 2 without modifying
+    // TODO 16
     int constGetDouble() const {
         return value * 2;
     }
 };
 
-
 // ============================================================
 // MAIN
 // ============================================================
+
 int main() {
-    // TODO 17: Demo Point
-    std::cout << "=== Point Demo ===" << std::endl;
-    Point p(3.0, 4.0);
-    std::cout << "Point: ";
-    p.display();
+    // TODO 17-21
+
+    Point p1(2, 3);
+    p1.display();
     std::cout << std::endl;
-    std::cout << "getX(): " << p.getX() << ", getY(): " << p.getY() << std::endl;
 
-    // TODO 18: Demo Rectangle
-    std::cout << "\n=== Rectangle Demo ===" << std::endl;
-    Rectangle r1(0.0, 0.0, 5.0, 3.0);
+    Rectangle r1(0, 10, 5, 0);
+    Rectangle r2(1, 8, 6, -2);
+
     r1.display();
-
-    Rectangle r2(1.0, 1.0, 6.0, 4.0);
     r2.display();
 
-    // TODO 19: Demo isSameSize
-    std::cout << "\n=== isSameSize Demo ===" << std::endl;
-    std::cout << "r1 and r2 same size? "
+    std::cout << "Same size? "
               << (isSameSize(r1, r2) ? "Yes" : "No") << std::endl;
 
-    Rectangle r3(0.0, 0.0, 10.0, 7.0);
-    r3.display();
-    std::cout << "r1 and r3 same size? "
-              << (isSameSize(r1, r3) ? "Yes" : "No") << std::endl;
-
-    // TODO 20: Demo ConstDemo — const and non-const methods
-    std::cout << "\n=== ConstDemo Demo ===" << std::endl;
-    ConstDemo cd(5);
-    std::cout << "Initial value: " << cd.getValue() << std::endl;
-    std::cout << "constGetDouble(): " << cd.constGetDouble() << std::endl;
+    ConstDemo cd(10);
+    std::cout << "Value: " << cd.getValue() << std::endl;
 
     cd.doubleValue();
     std::cout << "After doubleValue(): " << cd.getValue() << std::endl;
 
-    // TODO 21: Verify const object can only call const methods
-    const ConstDemo cdConst(10);
-    std::cout << "\nconst ConstDemo value: " << cdConst.getValue() << std::endl;
-    std::cout << "const ConstDemo constGetDouble(): " << cdConst.constGetDouble() << std::endl;
-    // cdConst.doubleValue();  // Would NOT compile — correct behavior
+    std::cout << "constGetDouble(): " << cd.constGetDouble() << std::endl;
 
     return 0;
 }
